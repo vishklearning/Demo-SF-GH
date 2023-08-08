@@ -106,9 +106,10 @@ jobs:
           # Fetch the branches from both repositories
           cd global_repo
           git fetch origin
-          delta=$(sfdx force:source:status -u vishklearning -r master --json | jq '.result | map(select(.state == "Changed")) | map(.fullName) | join(",")')
-          echo "Delta between branches:"
-          echo "$delta"
+          sfdx sgd:source:delta - to TestDemo - from master - output deltadir
+          # delta=$(sfdx force:source:status -u vishklearning -r master --json | jq '.result | map(select(.state == "Changed")) | map(.fullName) | join(",")')
+          # echo "Delta between branches:"
+          # echo "$delta"
           # sfdx force:source:deploy --checkonly --sourcebranch TestDemo --targetusername vishklearning --json | jq '.result'
           # git checkout master
           # git diff master...TestDemo
