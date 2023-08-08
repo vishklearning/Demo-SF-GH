@@ -21,6 +21,7 @@ jobs:
         with:
           repository: ${{ github.event.inputs.target-repo }}
           ref: ${{ github.event.inputs.target-branch }}
+          path: target-repo
 
       - name: Setup Node
         uses: actions/setup-node@v3
@@ -42,7 +43,12 @@ jobs:
       - name: Get Delta from Cloned Repository
         run: |
           delta=$(sfdx force:source:status -u vishklearning --json | jq '.result | map(select(.state == "Changed")) | map(.fullName) | join(",")')
-
-      - name: Output Delta
-        run:  "Delta from ${{ github.event.inputs.target-repo }}:${{ github.event.inputs.target-branch }}: $delta"
-        # run: echo "Delta from ${{ github.event.inputs.target-repo }}:${{ github.event.inputs.target-branch }}: $delta"
+  
+      - name: Deploy Delta to Target Repository
+        run: |
+          cd target-repo
+          sfdx force:source:deploy -p $delta -u vishklearning --wait 10 --json
+     
+      # - name: Output Delta
+      #   run: "Delta from ${{ github.event.inputs.target-repo }}:${{ github.event.inputs.target-branch }}: $delta"
+       
