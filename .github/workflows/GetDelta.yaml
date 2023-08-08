@@ -36,4 +36,5 @@ jobs:
           delta=$(sfdx force:source:status -u vishklearning --json | jq '.result | map(select(.state == "Changed")) | map(.fullName) | join(",")')
 
       - name: Output Delta
-        run: echo "Delta from ${{ github.event.inputs.target-repo }}:${{ github.event.inputs.target-branch }}: $delta"
+        run:  "Delta from ${{ github.event.inputs.target-repo }}:${{ github.event.inputs.target-branch }}: $delta"
+        # run: echo "Delta from ${{ github.event.inputs.target-repo }}:${{ github.event.inputs.target-branch }}: $delta"
