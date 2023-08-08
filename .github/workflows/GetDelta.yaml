@@ -37,7 +37,7 @@ jobs:
 
       - name: Authenticate with Salesforce
         run: |
-           run: sfdx auth:jwt:grant --username vishksalesforce@gmail.com.dev1 -f ./assests/server.key -i 3MVG9OjW2TAjFKUvMO.2ZqzAwK6pcsQgJU4Fj45jsD6_FWjV2uwH4cPcG0pOIkYxCxS0jl25186Se.tkjCcbW -r https://computing-efficiency-483.scratch.my.salesforce.com
+          sfdx auth:jwt:grant --username vishksalesforce@gmail.com.dev1 -f ./assests/server.key -i 3MVG9OjW2TAjFKUvMO.2ZqzAwK6pcsQgJU4Fj45jsD6_FWjV2uwH4cPcG0pOIkYxCxS0jl25186Se.tkjCcbW -r https://computing-efficiency-483.scratch.my.salesforce.com
 
       - name: Get Delta from Cloned Repository
         run: |
