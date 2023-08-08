@@ -106,7 +106,7 @@ jobs:
           # Fetch the branches from both repositories
           cd global_repo
           git fetch origin
-          git checkout master
+          # git checkout master
           git diff TestDemo
           # # Get the latest commit hashes of both branches
           # global_repo_commit_source=$(cd global_repo && git rev-parse origin/master)
