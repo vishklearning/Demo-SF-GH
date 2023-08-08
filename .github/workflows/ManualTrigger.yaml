@@ -106,7 +106,8 @@ jobs:
           # Fetch the branches from both repositories
           cd global_repo
           git fetch origin
-          sfdx force:source:deploy --checkonly --sourcebranch TestDemo --targetusername vishklearning --json | jq '.result'
+          sfdx force:source:deploy --diff --sourcebranch TestDemo --targetusername vishklearning
+          # sfdx force:source:deploy --checkonly --sourcebranch TestDemo --targetusername vishklearning --json | jq '.result'
           # git checkout master
           # git diff master...TestDemo
           # # Get the latest commit hashes of both branches
