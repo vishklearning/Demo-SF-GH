@@ -99,7 +99,8 @@ jobs:
           # $(cd global_repo && git rev-parse origin/master)
           global_repo_commit_target=$(cd global_repo && git rev-parse origin/testdemo1)
           # Get the diff between the branches
-          delta=$(git diff --name-only $global_repo_commit_source $global_repo_commit_target)
+          # delta=$(git diff --name-only $global_repo_commit_source $global_repo_commit_target)
+          delta=$(git diff master..TestDemo)
           echo "::set-output name=delta::$delta"
         
         
