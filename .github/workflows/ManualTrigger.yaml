@@ -95,9 +95,9 @@ jobs:
           git fetch global_repo
           
           # Get the latest commit hashes of both branches
-          global_repo_commit_source= $(cd global_repo && git rev-parse HEAD)
+          global_repo_commit_source= $(git rev-parse HEAD)
           # $(cd global_repo && git rev-parse origin/master)
-          global_repo_commit_target=$(cd global_repo && git rev-parse origin/testdemo1)
+          global_repo_commit_target=$(git rev-parse origin/testdemo1)
           # Get the diff between the branches
           # delta=$(git diff --name-only $global_repo_commit_source $global_repo_commit_target)
           delta=$(git diff master..TestDemo)
