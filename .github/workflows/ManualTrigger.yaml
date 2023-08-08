@@ -90,17 +90,18 @@ jobs:
       - name: Clone Global Repository
         id: get_delta
         run: |
-          git clone https://github.com/vishklearning/Demo-SF-GH1.git global_repo       
+          git clone https://github.com/vishklearning/Demo-SF-GH1.git global_repo
           # Fetch the branches from both repositories
-          git fetch global_repo
+          cd global_repo
+          git fetch origin
           
           # Get the latest commit hashes of both branches
-          global_repo_commit_source= $(git rev-parse HEAD)
+          global_repo_commit_source= $(git rev-parse origin/master)
           # $(cd global_repo && git rev-parse origin/master)
           global_repo_commit_target=$(git rev-parse origin/testdemo1)
           # Get the diff between the branches
-          # delta=$(git diff --name-only $global_repo_commit_source $global_repo_commit_target)
-          delta=$(git diff master..TestDemo)
+          delta=$(git diff --name-only $global_repo_commit_source $global_repo_commit_target)
+          # delta=$(git diff master..TestDemo)
           echo "::set-output name=delta::$delta"
         
         
