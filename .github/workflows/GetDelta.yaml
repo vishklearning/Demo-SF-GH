@@ -1,0 +1,39 @@
+name: Get Delta from Another Repository
+
+on:
+  workflow_dispatch:
+    inputs:
+      target-repo:
+        description: 'Target repository to clone'
+        required: true
+      target-branch:
+        description: 'Target branch in the repository'
+        required: true
+
+jobs:
+  get_delta:
+    name: Get Delta
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone Repository
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.event.inputs.target-repo }}
+          ref: ${{ github.event.inputs.target-branch }}
+
+      - name: Install Salesforce CLI
+        run: |
+          curl -sL https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz | tar xJf -
+          ./sfdx/install
+
+      - name: Authenticate with Salesforce
+        run: |
+          sfdx auth:jwt:grant -u <username> -f <JWT_FILE> -d -a <alias>
+
+      - name: Get Delta from Cloned Repository
+        run: |
+          delta=$(sfdx force:source:status -u vishklearning --json | jq '.result | map(select(.state == "Changed")) | map(.fullName) | join(",")')
+
+      - name: Output Delta
+        run: echo "Delta from ${{ github.event.inputs.target-repo }}:${{ github.event.inputs.target-branch }}: $delta"
