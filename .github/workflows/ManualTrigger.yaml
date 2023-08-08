@@ -106,13 +106,14 @@ jobs:
           # Fetch the branches from both repositories
           cd global_repo
           git fetch origin
+          sfdx force:source:deploy --checkonly --sourcebranch TestDemo --targetusername vishklearning --json | jq '.result'
           # git checkout master
           # git diff master...TestDemo
           # # Get the latest commit hashes of both branches
           # global_repo_commit_source=$(cd global_repo && git rev-parse origin/master)
           # global_repo_commit_target=$(cd global_repo && git rev-parse origin/TestDemo)
           # # Get the diff between the branches
-          delta=$(git diff --name-only master TestDemo)
+          # delta=$(git diff --name-only master TestDemo)
           # echo "::set-output name=delta::$delta"
           
       - name: Show Delta
