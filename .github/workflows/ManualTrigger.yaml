@@ -105,13 +105,15 @@ jobs:
         run: |
           # Fetch the branches from both repositories
           cd global_repo
-          git fetch origin          
-          # Get the latest commit hashes of both branches
-          global_repo_commit_source=$(cd global_repo && git rev-parse origin/master)
-          global_repo_commit_target=$(cd global_repo && git rev-parse origin/TestDemo)
-          # Get the diff between the branches
-          delta=$(git diff --name-only $global_repo_commit_target $global_repo_commit_source)
-          echo "::set-output name=delta::$delta"
+          git fetch origin
+          git checkout master
+          git diff TestDemo
+          # # Get the latest commit hashes of both branches
+          # global_repo_commit_source=$(cd global_repo && git rev-parse origin/master)
+          # global_repo_commit_target=$(cd global_repo && git rev-parse origin/TestDemo)
+          # # Get the diff between the branches
+          # delta=$(git diff --name-only $global_repo_commit_target $global_repo_commit_source)
+          # echo "::set-output name=delta::$delta"
           
       - name: Show Delta
         run: |
