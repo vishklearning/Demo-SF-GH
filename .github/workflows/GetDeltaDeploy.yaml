@@ -1,0 +1,64 @@
+name: Get Delta and Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      source-repo-url:
+        description: 'URL of the source repository to clone'
+        required: true
+      source-branch-name:
+        description: 'Branch in the source repository'
+        required: true
+      target-repo-url:
+        description: 'URL of the target repository to clone for deployment'
+        required: true
+      target-branch-name:
+        description: 'Branch in the target repository for deployment'
+        required: true
+
+jobs:
+  get_delta_and_deploy:
+    name: Get Delta and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone Source Repository
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.event.inputs.source-repo-url }}
+          ref: ${{ github.event.inputs.source-branch-name }}
+          path: source-repo
+          
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install SFDX-CLI
+        run: |
+          wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
+          mkdir ~/sfdx && ls -la
+          tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
+          echo "$HOME/sfdx/bin" >> $GITHUB_PATH
+          echo The PATH is $GITHUB_PATH
+          ~/sfdx/bin/sfdx version
+
+      - name: Authenticate with Salesforce
+        run: |
+          sfdx auth:jwt:grant --username vishksalesforce@gmail.com.dev1 -f ./assests/server.key -i 3MVG9OjW2TAjFKUvMO.2ZqzAwK6pcsQgJU4Fj45jsD6_FWjV2uwH4cPcG0pOIkYxCxS0jl25186Se.tkjCcbW -r https://computing-efficiency-483.scratch.my.salesforce.com
+
+      - name: Get Delta from Source Repository
+        run: |
+          cd source-repo
+          delta=$(sfdx force:source:status -u <alias> --json | jq '.result | map(select(.state == "Changed")) | map(.fullName) | join(",")')
+
+      - name: Clone Target Repository for Deployment
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.event.inputs.target-repo-url }}
+          ref: ${{ github.event.inputs.target-branch-name }}
+          path: target-repo
+      - name: Deploy Delta to Target Repository
+        run: |
+          cd target-repo
+	        sfdx force:source:deploy -p $delta -u vishklearning--wait 10 --json
