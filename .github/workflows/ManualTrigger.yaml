@@ -89,10 +89,10 @@ jobs:
 
       - name: Clone Global Repository
         # id: get_delta
-        run:  |
-            git clone https://github.com/vishklearning/Demo-SF-GH1.git global_repo
-            cd global_repo1
-            git fetch origin
+        run: git clone https://github.com/vishklearning/Demo-SF-GH1.git global_repo
+            # git clone https://github.com/vishklearning/Demo-SF-GH1.git global_repo
+            # cd global_repo1
+            # git fetch origin
           
           # # Get the latest commit hashes of both branches
           # global_repo_commit_source=$(git rev-parse origin/testdemo1)
