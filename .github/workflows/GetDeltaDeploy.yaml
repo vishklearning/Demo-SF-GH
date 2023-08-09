@@ -39,15 +39,15 @@ jobs:
           echo The PATH is $GITHUB_PATH
           ~/sfdx/bin/sfdx version
 
-      - name: Read Json file to get the version
-        run: |
-          versionNumber=$(jq -r '.status' validate.json)
-          echo $versionNumber
-          echo "SfdxValidateStatusCode=$versionNumber" >> $GITHUB_ENV
-          if [[ "$statusCode" == "0" ]]; then
-            resultId=$(jq -r '.result.id' validate.json)       
-            echo "resultID=$resultId" >> $GITHUB_ENV
-          fi
+      # - name: Read Json file to get the version
+      #   run: |
+      #     versionNumber=$(jq -r '.status' validate.json)
+      #     echo $versionNumber
+      #     echo "SfdxValidateStatusCode=$versionNumber" >> $GITHUB_ENV
+      #     if [[ "$statusCode" == "0" ]]; then
+      #       resultId=$(jq -r '.result.id' validate.json)       
+      #       echo "resultID=$resultId" >> $GITHUB_ENV
+      #     fi
           
       - name: Clone Source Repository
         uses: actions/checkout@v2
