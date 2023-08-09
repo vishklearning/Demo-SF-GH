@@ -21,4 +21,11 @@
         <shortDescription>Manual Trigger Label 3</shortDescription>
         <value>CCCC</value>
     </labels>
+    <labels>
+        <fullName>RegionalRepo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RegionalRepo</shortDescription>
+        <value>CCCC</value>
+    </labels>
 </CustomLabels>
