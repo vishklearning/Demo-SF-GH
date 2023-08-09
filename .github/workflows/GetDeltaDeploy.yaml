@@ -65,10 +65,10 @@ jobs:
         run: |
           sfdx auth:jwt:grant --username vishklearning-kkyx@force.com -f ./assests/server.key -i 3MVG9pRzvMkjMb6lQqNGD2Din84lDhzACIb8UOjKFaDT4GcRVUFVNHq79MC5AsrZx0tFPcQ2BWrmcua0RK0O0 -r https://efficiency-ability-9696.my.salesforce.com
       
-      # - name: Deploy Delta to Target Repository
-      #   run: |
-      #     cd target-repo
-      #     sf project deploy start --target-org vishklearning-kkyx@force.com --source-dir ./source-repo/force-app --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
+      - name: Deploy Global Core to Target Repository
+        run: |
+          cd target-repo
+          sf project deploy start --target-org vishklearning-kkyx@force.com --source-dir ./source-repo/force-app --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
 
       # - name: Get Delta from Source Repository
       #   run: |
