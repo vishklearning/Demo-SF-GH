@@ -67,8 +67,8 @@ jobs:
       
       - name: Deploy Global Core to Target Repository
         run: |
-          cd target-repo
-          sf project deploy start --target-org vishklearning-kkyx@force.com --source-dir ./source-repo/force-app --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
+          cd source-repo
+          sf project deploy start --target-org vishklearning-kkyx@force.com --source-dir force-app --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
 
       # - name: Get Delta from Source Repository
       #   run: |
