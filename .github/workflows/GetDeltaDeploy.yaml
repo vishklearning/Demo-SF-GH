@@ -45,7 +45,8 @@ jobs:
           repository: ${{ github.event.inputs.source-repo-url }}
           ref: ${{ github.event.inputs.source-branch-name }}
           path: source-repo
-          
+      - name: Directory list
+        run: ls -la
       - name: Authenticate with Salesforce
         run: |
           sfdx auth:jwt:grant --username vishklearning@gmail.com -f ./assests/server.key -i 3MVG9pRzvMkjMb6lQqNGD2Din812pV.zM2IJ0lHGeDuZwTMjSJjYN0rsJE25JMLKmRgbSnEWeVnHECwT8etCg -r https://efficiency-ability-9696.my.salesforce.com
