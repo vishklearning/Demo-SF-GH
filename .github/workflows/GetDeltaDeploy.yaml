@@ -65,25 +65,25 @@ jobs:
         run: |
           sfdx auth:jwt:grant --username vishklearning-kkyx@force.com -f ./assests/server.key -i 3MVG9pRzvMkjMb6lQqNGD2Din84lDhzACIb8UOjKFaDT4GcRVUFVNHq79MC5AsrZx0tFPcQ2BWrmcua0RK0O0 -r https://efficiency-ability-9696.my.salesforce.com
       
-      # - name: Deploy Delta to Target Repository
-      #   run: |
-      #     cd target-repo
-      #     sf project deploy start --target-org vishklearning-kkyx@force.com --source-dir ./source-repo/force-app --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
+      - name: Deploy Delta to Target Repository
+        run: |
+          cd target-repo
+          sf project deploy start --target-org vishklearning-kkyx@force.com --source-dir ./source-repo/force-app --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
 
-      # - name: Get Delta from Source Repository
-      #   run: |
-      #     cd source-repo
-      #     delta=$(sfdx force:source:status -u <alias> --json | jq '.result | map(select(.state == "Changed")) | map(.fullName) | join(",")')
+      - name: Get Delta from Source Repository
+        run: |
+          cd source-repo
+          delta=$(sfdx force:source:status -u <alias> --json | jq '.result | map(select(.state == "Changed")) | map(.fullName) | join(",")')
 
-      # - name: Clone Target Repository for Deployment
-      #   uses: actions/checkout@v2
-      #   with:
-      #     repository: ${{ github.event.inputs.target-repo-url }}
-      #     ref: ${{ github.event.inputs.target-branch-name }}
-      #     token: ${{ secrets.V_METADATA_SEC }}
-      #     path: target-repo
-      # - name: Deploy Delta to Target Repository
-      #   run: |
-      #     cd target-repo
-      #     sf project deploy start --target-org vishklearning-kkyx@force.com -p $delta --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
-      #     # sfdx force:source:deploy -p $delta -u vishklearning-kkyx@force.com --wait 10 --json
+      - name: Clone Target Repository for Deployment
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.event.inputs.target-repo-url }}
+          ref: ${{ github.event.inputs.target-branch-name }}
+          token: ${{ secrets.V_METADATA_SEC }}
+          path: target-repo
+      - name: Deploy Delta to Target Repository
+        run: |
+          cd target-repo
+          sf project deploy start --target-org vishklearning-kkyx@force.com -p $delta --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
+          # sfdx force:source:deploy -p $delta -u vishklearning-kkyx@force.com --wait 10 --json
