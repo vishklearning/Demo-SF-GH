@@ -49,7 +49,7 @@ jobs:
         run: ls -la
       - name: Authenticate with Salesforce
         run: |
-          sfdx auth:jwt:grant --username vishklearning@gmail.com -f ./assests/server.key -i 3MVG9pRzvMkjMb6lQqNGD2Din812pV.zM2IJ0lHGeDuZwTMjSJjYN0rsJE25JMLKmRgbSnEWeVnHECwT8etCg -r https://efficiency-ability-9696.my.salesforce.com
+          sfdx auth:jwt:grant --username vishklearning@gmail.com -f ./assests/server.key -i 3MVG9pRzvMkjMb6lQqNGD2Din84lDhzACIb8UOjKFaDT4GcRVUFVNHq79MC5AsrZx0tFPcQ2BWrmcua0RK0O0 -r https://efficiency-ability-9696.my.salesforce.com
       - name: Get Delta from Source Repository
         run: |
           cd source-repo
