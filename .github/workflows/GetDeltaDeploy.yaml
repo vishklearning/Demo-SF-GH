@@ -68,13 +68,13 @@ jobs:
           ls -la
       - name: Authenticate with Salesforce
         run: |
-          sfdx auth:jwt:grant --username test-qum1peqz8xof@example.com -f ./assests/server.key -i 3MVG9WT2DgKQz0hnhd5RyKI15DDsnPtPLiZyMRefonIjX_g9WL6umKwwopBvKHCUq3tWtFRN.RuRmo.FILz2l -r https://customer-innovation-2929-dev-ed.scratch.my.salesforce.com
+          sfdx auth:jwt:grant --username vishk@sandbox.com -f ./assests/server.key -i 3MVG9pRzvMkjMb6nAi7WT7SUp_F18JzfYON4E0poYhQqGWsGBgbCTSuTqSXd99clHNmQZnu3vYVGlGV50eQGZ -r https://gmail-1a1-dev-ed.develop.my.salesforce.com
 
       - name: Deploy Global Core to Target Repository
         id: SFDXDeploy        
         run:  |
          cd source-repo         
-         sfdx force:source:deploy -u test-qum1peqz8xof@example.com --source-dir ./force-app/main/default/ --apiversion ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
+         sfdx force:source:deploy -u vishk@sandbox.com --source-dir ./force-app/main/default/ --apiversion ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
          
          # sfdx force:source:deploy -p "force-app" --wait 90 --json > deploy.json
          # sf project deploy start --target-org vishklearning-kkyx@force.com --source-dir ./source-repo/force-app/main/default/ --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
