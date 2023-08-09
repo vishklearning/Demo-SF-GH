@@ -72,7 +72,7 @@ jobs:
 
       - name: Deploy Global Core to Target Repository
         id: SFDXDeploy
-        run: sf project deploy start --target-org vishklearning-kkyx@force.com --source-dir ./source-repo/force-app --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
+        run: sf project deploy start --target-org vishklearning-kkyx@force.com --source-dir ./source-repo/force-app/main/default/ --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
           # cd source-repo
           # ls -la         
           # sf project deploy start --target-org vishklearning-kkyx@force.com --source-dir "force-app" --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
