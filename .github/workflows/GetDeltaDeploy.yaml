@@ -70,6 +70,15 @@ jobs:
           cd source-repo
           sf project deploy start --target-org vishklearning-kkyx@force.com --source-dir force-app --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
 
+       # Upload the output of force:sorce:deploy cmd in json file
+      - name: Artifact Upload - ./deploy.json
+        if: (steps.sfdxDeploy.outcome == 'success' || steps.sfdxDeploy.outcome == 'failure' || steps.sfdxQuickDeploy.outcome == 'success')
+        uses: actions/upload-artifact@v3
+        with:
+          name: deploy.json
+          path: ./deploy.json
+          retention-days: 15
+      
       # - name: Get Delta from Source Repository
       #   run: |
       #     cd source-repo
