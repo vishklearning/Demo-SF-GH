@@ -66,4 +66,5 @@ jobs:
       - name: Deploy Delta to Target Repository
         run: |
           cd target-repo
-          sfdx force:source:deploy -p $delta -u vishklearning-kkyx@force.com --wait 10 --json
+          sf project deploy start --target-org vishklearning-kkyx@force.com --source-dir $delta --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
+          # sfdx force:source:deploy -p $delta -u vishklearning-kkyx@force.com --wait 10 --json
