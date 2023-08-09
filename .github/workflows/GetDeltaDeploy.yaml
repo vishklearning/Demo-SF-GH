@@ -44,6 +44,7 @@ jobs:
         with:
           repository: ${{ github.event.inputs.source-repo-url }}
           ref: ${{ github.event.inputs.source-branch-name }}
+          token: ${{ secrets.V_METADATA_SEC }}
           path: source-repo
       - name: Directory list
         run: ls -la
@@ -60,6 +61,7 @@ jobs:
         with:
           repository: ${{ github.event.inputs.target-repo-url }}
           ref: ${{ github.event.inputs.target-branch-name }}
+          token: ${{ secrets.V_METADATA_SEC }}
           path: target-repo
       - name: Deploy Delta to Target Repository
         run: |
