@@ -64,8 +64,9 @@ jobs:
       - name: Authenticate with Salesforce
         run: |
           sfdx auth:jwt:grant --username vishklearning-kkyx@force.com -f ./assests/server.key -i 3MVG9pRzvMkjMb6lQqNGD2Din84lDhzACIb8UOjKFaDT4GcRVUFVNHq79MC5AsrZx0tFPcQ2BWrmcua0RK0O0 -r https://efficiency-ability-9696.my.salesforce.com
-      
+
       - name: Deploy Global Core to Target Repository
+        id: SFDXDeploy
         run: sf project deploy start --target-org vishklearning-kkyx@force.com --source-dir ./source-repo/force-app --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
           # cd source-repo
           # ls -la         
@@ -73,7 +74,9 @@ jobs:
            # sfdx force:source:deploy -p "force-app" --wait 90 --json > deploy.json
            
        # Upload the output of force:sorce:deploy cmd in json file
+       
       - name: Artifact Upload - ./deploy.json
+        if: SFDXDeploy(steps.SFDXDeploy.outcome == 'success || steps.SFDXDeploy.outcome != 'skipped')
         uses: actions/upload-artifact@v3
         with:
           name: deploy.json
