@@ -59,13 +59,13 @@ jobs:
       
       # - name: Extract files from source repo
         
-      - name: Directory list
-        run: |
-          ls -la
-          cd source-repo
-          ls -la
-          cd force-app/main/default/
-          ls -la
+#       - name: Directory list
+#         run: |
+#           ls -la
+#           cd source-repo
+#           ls -la
+#           cd force-app/main/default/
+#           ls -la
       - name: Authenticate with Salesforce
         run: |
           sfdx auth:jwt:grant --username vishklearning@gmail.com -f ./assests/server.key -i 3MVG9pRzvMkjMb6nAi7WT7SUp_F18JzfYON4E0poYhQqGWsGBgbCTSuTqSXd99clHNmQZnu3vYVGlGV50eQGZ -r https://gmail-1a1-dev-ed.develop.my.salesforce.com
@@ -75,15 +75,7 @@ jobs:
         run:  |
          cd source-repo         
          sf project deploy start --target-org vishklearning@gmail.com --source-dir "force-app" --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
-         # sfdx force:source:deploy -u vishklearning@gmail.com --source-dir "force-app" --apiversion ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
-         
-         # sfdx force:source:deploy -p "force-app" --wait 90 --json > deploy.json
-         # sf project deploy start --target-org vishklearning-kkyx@force.com --source-dir ./source-repo/force-app/main/default/ --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
-          # cd source-repo
-          # ls -la         
-          # sf project deploy start --target-org vishklearning-kkyx@force.com --source-dir "force-app" --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
-          # sfdx force:source:deploy -p "force-app" --wait 90 --json > deploy.json
-           
+                    
        # Upload the output of force:sorce:deploy cmd in json file
        
       - name: Artifact Upload - ./deploy.json
@@ -99,15 +91,18 @@ jobs:
       #     cd source-repo
       #     delta=$(sfdx force:source:status -u <alias> --json | jq '.result | map(select(.state == "Changed")) | map(.fullName) | join(",")')
 
-      # - name: Clone Target Repository for Deployment
-      #   uses: actions/checkout@v2
-      #   with:
-      #     repository: ${{ github.event.inputs.target-repo-url }}
-      #     ref: ${{ github.event.inputs.target-branch-name }}
-      #     token: ${{ secrets.V_METADATA_SEC }}
-      #     path: target-repo
-      # - name: Deploy Delta to Target Repository
-      #   run: |
-      #     cd target-repo
-      #     sf project deploy start --target-org vishklearning-kkyx@force.com -p $delta --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
-      #     # sfdx force:source:deploy -p $delta -u vishklearning-kkyx@force.com --wait 10 --json
+      - name: Clone Target Repository for Deployment
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.event.inputs.target-repo-url }}
+          ref: ${{ github.event.inputs.target-branch-name }}
+          token: ${{ secrets.V_METADATA_SEC }}
+          path: target-repo
+      - name: Authenticate with Salesforce
+        run: |
+          sfdx auth:jwt:grant --username vishklearning@gmail.com -f ./assests/server.key -i 3MVG9pRzvMkjMb6nAi7WT7SUp_F18JzfYON4E0poYhQqGWsGBgbCTSuTqSXd99clHNmQZnu3vYVGlGV50eQGZ -r https://gmail-1a1-dev-ed.develop.my.salesforce.com
+      - name: Deploy Delta to Target Repository
+        run: |
+          cd target-repo
+          sf project deploy start --target-org vishklearning@gmail.com --source-dir "force-app" --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
+          # sfdx force:source:deploy -p $delta -u vishklearning-kkyx@force.com --wait 10 --json
