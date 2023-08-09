@@ -60,7 +60,10 @@ jobs:
       # - name: Extract files from source repo
         
       - name: Directory list
-        run: ls -la
+        run: |
+          ls -la
+          cd source-repo
+          ls -la
       - name: Authenticate with Salesforce
         run: |
           sfdx auth:jwt:grant --username vishklearning-kkyx@force.com -f ./assests/server.key -i 3MVG9pRzvMkjMb6lQqNGD2Din84lDhzACIb8UOjKFaDT4GcRVUFVNHq79MC5AsrZx0tFPcQ2BWrmcua0RK0O0 -r https://efficiency-ability-9696.my.salesforce.com
