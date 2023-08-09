@@ -68,7 +68,8 @@ jobs:
       - name: Deploy Global Core to Target Repository
         run: |
           cd source-repo
-          sf project deploy start --target-org vishklearning-kkyx@force.com --source-dir "force-app" --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
+          sfdx force:source:deploy -p "force-app" --wait 90 --json > deploy.json
+          # sf project deploy start --target-org vishklearning-kkyx@force.com --source-dir "force-app" --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
 
        # Upload the output of force:sorce:deploy cmd in json file
       - name: Artifact Upload - ./deploy.json
