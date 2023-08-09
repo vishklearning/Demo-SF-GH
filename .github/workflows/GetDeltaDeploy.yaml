@@ -76,7 +76,7 @@ jobs:
        # Upload the output of force:sorce:deploy cmd in json file
        
       - name: Artifact Upload - ./deploy.json
-        if: (steps.SFDXDeploy.outcome == 'success || steps.SFDXDeploy.outcome != 'skipped')
+        if: (steps.SFDXDeploy.outcome == 'success' || steps.SFDXDeploy.outcome != 'skipped')
         uses: actions/upload-artifact@v3
         with:
           name: deploy.json
