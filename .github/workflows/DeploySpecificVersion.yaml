@@ -1,4 +1,4 @@
-name: Get Delta and Deploy
+name: Get Delta and Deploy -Specific Version
 
 on:
   workflow_dispatch:
