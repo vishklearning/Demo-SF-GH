@@ -1,0 +1,13 @@
+{
+ "auto-update": "true"
+ "name": "core-release",
+ "version": "v1.2.0",
+  "description": "",
+  "main": "",
+  "dependencies": {
+    "trigger-framework": "3.2.0",
+    "custom_settings_framework": "^5.5.2",
+  },
+  "author": "",
+  "license": "Bayer"  
+}
