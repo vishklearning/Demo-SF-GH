@@ -25,6 +25,9 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+        with:          
+          token: ${{ secrets.V_METADATA_SEC }}
+          path: repo
       - name: Directory list
         run: |
           ls -la
@@ -46,6 +49,7 @@ jobs:
           
       - name: Read Json file to get the version
         run: |
+          cd repo
           versionNumber=$(jq -r '.version' config.json)
           echo $versionNumber
           # echo "GlobalVersion=$versionNumber" >> $GITHUB_ENV
