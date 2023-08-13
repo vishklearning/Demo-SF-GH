@@ -20,9 +20,7 @@ jobs:
   get_delta_and_deploy:
     name: Get Delta and Deploy
     runs-on: ubuntu-latest
-    env:
-      versionNumber: ""
-    
+       
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -31,12 +29,14 @@ jobs:
           ls -la
 
       - name: Read Json file to get the version
-        id:  read-version
         run: |
-          echo "::save-state name={version}::$(jq -r '.version' manifest.json)"
-          # versionNumber=$(jq -r '.version' manifest.json)
-          # echo ${{ env.versionNumber }}
-          # echo "SfdxValidateStatusCode=${{ env.versionNumber }}" >> $GITHUB_ENV
+          versionNumber=$(jq -r '.version' manifest.json)
+          echo $versionNumber
+          echo "SfdxValidateStatusCode=$versionNumber" >> $GITHUB_ENV
+          # if [[ "$statusCode" == "0" ]]; then
+          #   resultId=$(jq -r '.result.id' validate.json)       
+          #   echo "resultID=$resultId" >> $GITHUB_ENV
+          # fi
                  
       - name: Setup Node
         uses: actions/setup-node@v3
