@@ -48,7 +48,7 @@ jobs:
         run: |
           versionNumber=$(jq -r '.version' manifest.json)
           echo $versionNumber
-          echo "GlobalVersion=$versionNumber" >> $GITHUB_ENV
+          # echo "GlobalVersion=$versionNumber" >> $GITHUB_ENV
           # if [[ "$statusCode" == "0" ]]; then
           #   resultId=$(jq -r '.result.id' validate.json)       
           #   echo "resultID=$resultId" >> $GITHUB_ENV
