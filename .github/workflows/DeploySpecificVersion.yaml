@@ -26,6 +26,9 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+      - name: Directory list
+        run: |
+          ls -la
 
       - name: Read Json file to get the version
         run: |
