@@ -1,7 +1,7 @@
 {
  "auto-update": "true"
  "name": "core-release",
-  "version": "v1.0.0",
+  "version": "v1.2.0",
   "description": "",
   "main": "",
   "dependencies": {
