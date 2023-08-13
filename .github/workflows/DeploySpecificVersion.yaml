@@ -33,7 +33,7 @@ jobs:
       - name: Read Json file to get the version
         id:  read-version
         run: |
-          echo "::set-output name=version::$(jq -r '.version' manifest.json)"
+          echo "::save-state name={version}::$(jq -r '.version' manifest.json)"
           # versionNumber=$(jq -r '.version' manifest.json)
           # echo ${{ env.versionNumber }}
           # echo "SfdxValidateStatusCode=${{ env.versionNumber }}" >> $GITHUB_ENV
