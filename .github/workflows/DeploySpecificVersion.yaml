@@ -20,7 +20,8 @@ jobs:
   get_delta_and_deploy:
     name: Get Delta and Deploy
     runs-on: ubuntu-latest
-       
+    env:
+      GlobalVersion: ""
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -47,7 +48,7 @@ jobs:
         run: |
           versionNumber=$(jq -r '.version' manifest.json)
           echo $versionNumber
-          echo "SfdxValidateStatusCode=$versionNumber" >> $GITHUB_ENV
+          echo "GlobalVersion=$versionNumber" >> $GITHUB_ENV
           # if [[ "$statusCode" == "0" ]]; then
           #   resultId=$(jq -r '.result.id' validate.json)       
           #   echo "resultID=$resultId" >> $GITHUB_ENV
@@ -66,7 +67,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: ${{ github.event.inputs.source-repo-url }}
-          ref: ${{ github.event.inputs.source-branch-name }}/${{ steps.read-version.outputs.version }}
+          ref: ${{ github.event.inputs.source-branch-name }}/${{env.GlobalVersion}}
           token: ${{ secrets.V_METADATA_SEC }}
           path: source-repo
       
