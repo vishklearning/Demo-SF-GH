@@ -1,4 +1,4 @@
-name: Get Delta and Deploy with specific version
+name: Get Delta and Deploy
 
 on:
   workflow_dispatch:
@@ -20,10 +20,18 @@ jobs:
   get_delta_and_deploy:
     name: Get Delta and Deploy
     runs-on: ubuntu-latest
-
+    env:
+      versionNumber: ""
+    
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+
+      - name: Read Json file to get the version
+        run: |
+          versionNumber=$(jq -r '.version' manifest.json)
+          echo $versionNumber
+          echo "SfdxValidateStatusCode=$versionNumber" >> $GITHUB_ENV
                  
       - name: Setup Node
         uses: actions/setup-node@v3
@@ -53,7 +61,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: ${{ github.event.inputs.source-repo-url }}
-          ref: ${{ github.event.inputs.source-branch-name }}
+          ref: ${{ github.event.inputs.source-branch-name }}/${versionNumber}
           token: ${{ secrets.V_METADATA_SEC }}
           path: source-repo
       
