@@ -58,31 +58,16 @@ jobs:
           #   resultId=$(jq -r '.result.id' validate.json)       
           #   echo "resultID=$resultId" >> $GITHUB_ENV
           # fi
-      # - name: Read Json file to get the version
-      #   run: |
-      #     versionNumber=$(jq -r '.status' validate.json)
-      #     echo $versionNumber
-      #     echo "SfdxValidateStatusCode=$versionNumber" >> $GITHUB_ENV
-      #     if [[ "$statusCode" == "0" ]]; then
-      #       resultId=$(jq -r '.result.id' validate.json)       
-      #       echo "resultID=$resultId" >> $GITHUB_ENV
-      #     fi
-          
-      # - name: Clone Source Repository
-      #   uses: actions/checkout@v2
-      #   with:
-      #     repository: ${{ github.event.inputs.source-repo-url }}
-      #     token: ${{ secrets.V_METADATA_SEC }}
-      #     path: ./source-repo
-      #     ref: ${{ github.event.inputs.source-branch-name }}/${{env.GlobalVersion}}
-          
+     
       - name: Clone Source Repository
         uses: actions/checkout@v2
         with:
           repository: ${{ github.event.inputs.source-repo-url }}
-          ref: ${{ github.event.inputs.source-branch-name }}
+          ref: ${{ github.event.inputs.source-branch-name }}/${{env.GlobalVersion}}
           token: ${{ secrets.V_METADATA_SEC }}
-          path: source-repo 
+          path: source-repo
+          
+          
       
       # - name: Extract files from source repo
         
