@@ -68,15 +68,21 @@ jobs:
       #       echo "resultID=$resultId" >> $GITHUB_ENV
       #     fi
           
+      # - name: Clone Source Repository
+      #   uses: actions/checkout@v2
+      #   with:
+      #     repository: ${{ github.event.inputs.source-repo-url }}
+      #     token: ${{ secrets.V_METADATA_SEC }}
+      #     path: ./source-repo
+      #     ref: ${{ github.event.inputs.source-branch-name }}/${{env.GlobalVersion}}
+          
       - name: Clone Source Repository
         uses: actions/checkout@v2
         with:
           repository: ${{ github.event.inputs.source-repo-url }}
+          ref: ${{ github.event.inputs.source-branch-name }}
           token: ${{ secrets.V_METADATA_SEC }}
-          path: ./source-repo
-          ref: ${{ github.event.inputs.source-branch-name }}/${{env.GlobalVersion}}
-          
-         
+          path: source-repo 
       
       # - name: Extract files from source repo
         
