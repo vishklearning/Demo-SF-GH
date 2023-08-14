@@ -1,0 +1,117 @@
+name: Get Delta and Deploy -Specific Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      source-repo-url:
+        description: 'URL of the source repository to clone'
+        required: true
+      source-branch-name:
+        description: 'Branch in the source repository'
+        required: true
+      target-repo-url:
+        description: 'URL of the target repository to clone for deployment'
+        required: true
+      target-branch-name:
+        description: 'Branch in the target repository for deployment'
+        required: true
+
+jobs: 
+  global_repo:
+    name: Get Delta and Deploy
+    runs-on: ubuntu-latest
+    env:
+      GlobalVersion: ""
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install SFDX-CLI
+        run: |
+          wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
+          mkdir ~/sfdx && ls -la
+          tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
+          echo "$HOME/sfdx/bin" >> $GITHUB_PATH
+          echo The PATH is $GITHUB_PATH
+          ~/sfdx/bin/sfdx version
+
+      # - name: Checkout Repository
+      #   uses: actions/checkout@v2
+      #   with:          
+      #     token: ${{ secrets.V_METADATA_SEC }}
+      #     path: repo
+      - name: Directory list
+        run: |
+          ls -la
+      - name: Read Json file to get the version
+        run: |
+          # cd repo
+          versionNumber=$(jq -r '.version' config.json)
+          # echo "Version Number: $versionNumber"
+          echo "GlobalVersion=$versionNumber" >> $GITHUB_ENV
+          # if [[ "$statusCode" == "0" ]]; then
+          #   resultId=$(jq -r '.result.id' validate.json)       
+          #   echo "resultID=$resultId" >> $GITHUB_ENV
+          # fi
+      
+          
+      - name: Clone Source Repository
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.event.inputs.source-repo-url }}
+          ref: ${{ github.event.inputs.source-branch-name }}
+          token: ${{ secrets.V_METADATA_SEC }}
+          path: source-repo 
+      
+      # - name: Extract files from source repo
+        
+#       - name: Directory list
+#         run: |
+#           ls -la
+#           cd source-repo
+#           ls -la
+#           cd force-app/main/default/
+#           ls -la
+      - name: Authenticate with Salesforce
+        run: |
+          sfdx auth:jwt:grant --username vishklearning@gmail.com -f ./assests/server.key -i 3MVG9pRzvMkjMb6nAi7WT7SUp_F18JzfYON4E0poYhQqGWsGBgbCTSuTqSXd99clHNmQZnu3vYVGlGV50eQGZ -r https://gmail-1a1-dev-ed.develop.my.salesforce.com
+
+      - name: Deploy Global Core to Target Repository
+        id: SFDXDeploy        
+        run:  |
+         cd source-repo         
+         sf project deploy start --target-org vishklearning@gmail.com --source-dir "force-app" --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
+                    
+       # Upload the output of force:sorce:deploy cmd in json file
+       
+      - name: Artifact Upload - ./deploy.json
+        if: (steps.SFDXDeploy.outcome == 'success' || steps.SFDXDeploy.outcome != 'skipped')
+        uses: actions/upload-artifact@v3
+        with:
+          name: deploy.json
+          path: ./deploy.json
+          retention-days: 15   
+  regional_repo:
+    needs: global_repo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Target Repository for Deployment
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.event.inputs.target-repo-url }}
+          ref: ${{ github.event.inputs.target-branch-name }}
+          token: ${{ secrets.V_METADATA_SEC }}
+          path: target-repo
+      - name: Authenticate with Salesforce
+        run: |
+          sfdx auth:jwt:grant --username vishklearning@gmail.com -f ./assests/server.key -i 3MVG9pRzvMkjMb6nAi7WT7SUp_F18JzfYON4E0poYhQqGWsGBgbCTSuTqSXd99clHNmQZnu3vYVGlGV50eQGZ -r https://gmail-1a1-dev-ed.develop.my.salesforce.com
+      - name: Deploy Delta to Target Repository
+        run: |
+          cd target-repo
+          sf project deploy start --target-org vishklearning@gmail.com --source-dir "force-app" --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
+          # sfdx force:source:deploy -p $delta -u vishklearning-kkyx@force.com --wait 10 --json
