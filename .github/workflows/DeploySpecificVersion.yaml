@@ -64,6 +64,7 @@ jobs:
         with:
           repository: ${{ github.event.inputs.source-repo-url }}
           ref: ${{ github.event.inputs.source-branch-name }}/${{env.GlobalVersion}}
+          # ref: ${{ github.event.inputs.source-branch-name }}/${{env.GlobalVersion}}
           token: ${{ secrets.V_METADATA_SEC }}
           path: source-repo
           
