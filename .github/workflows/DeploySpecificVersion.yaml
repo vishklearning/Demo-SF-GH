@@ -51,9 +51,9 @@ jobs:
       - name: Read Json file to get the version
         run: |
           cd repo
-          versionNumber=$(jq -r '.version' config1.json)
-          echo "Version Number: $versionNumber"
-          # echo "GlobalVersion=$versionNumber" >> $GITHUB_ENV
+          versionNumber=$(jq -r '.version' config.json)
+          # echo "Version Number: $versionNumber"
+          echo "GlobalVersion=$versionNumber" >> $GITHUB_ENV
           # if [[ "$statusCode" == "0" ]]; then
           #   resultId=$(jq -r '.result.id' validate.json)       
           #   echo "resultID=$resultId" >> $GITHUB_ENV
