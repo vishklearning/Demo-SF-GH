@@ -1,4 +1,4 @@
-name: Get Delta and Deploy -Specific Version
+name: Get Delta and Deploy -Specific Version With Jobs
 
 on:
   workflow_dispatch:
