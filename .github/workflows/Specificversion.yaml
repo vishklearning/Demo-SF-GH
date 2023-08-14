@@ -126,7 +126,7 @@ jobs:
           ls -la
        - name: Authenticate with Salesforce
          run: |
-          sfdx auth:jwt:grant --username vishklearning@gmail.com -f ./assests/server.key -i 3MVG9pRzvMkjMb6nAi7WT7SUp_F18JzfYON4E0poYhQqGWsGBgbCTSuTqSXd99clHNmQZnu3vYVGlGV50eQGZ -r https://gmail-1a1-dev-ed.develop.my.salesforce.com
+          sfdx auth:jwt:grant --username vishklearning@gmail.com -f ./target-repo/assests/server.key -i 3MVG9pRzvMkjMb6nAi7WT7SUp_F18JzfYON4E0poYhQqGWsGBgbCTSuTqSXd99clHNmQZnu3vYVGlGV50eQGZ -r https://gmail-1a1-dev-ed.develop.my.salesforce.com
        - name: Deploy Delta to Target Repository
          run: |
           cd target-repo
