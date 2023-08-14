@@ -100,18 +100,31 @@ jobs:
     needs: global_repo
     runs-on: ubuntu-latest
     steps:
-      - name: Clone Target Repository for Deployment
-        uses: actions/checkout@v2
-        with:
+       - name: Setup Node
+         uses: actions/setup-node@v3
+         with:
+          node-version: "18"
+
+       - name: Install SFDX-CLI
+         run: |
+          wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
+          mkdir ~/sfdx && ls -la
+          tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
+          echo "$HOME/sfdx/bin" >> $GITHUB_PATH
+          echo The PATH is $GITHUB_PATH
+          ~/sfdx/bin/sfdx version
+       - name: Clone Target Repository for Deployment
+         uses: actions/checkout@v2
+         with:
           repository: ${{ github.event.inputs.target-repo-url }}
           ref: ${{ github.event.inputs.target-branch-name }}
           token: ${{ secrets.V_METADATA_SEC }}
           path: target-repo
-      - name: Authenticate with Salesforce
-        run: |
+       - name: Authenticate with Salesforce
+         run: |
           sfdx auth:jwt:grant --username vishklearning@gmail.com -f ./assests/server.key -i 3MVG9pRzvMkjMb6nAi7WT7SUp_F18JzfYON4E0poYhQqGWsGBgbCTSuTqSXd99clHNmQZnu3vYVGlGV50eQGZ -r https://gmail-1a1-dev-ed.develop.my.salesforce.com
-      - name: Deploy Delta to Target Repository
-        run: |
+       - name: Deploy Delta to Target Repository
+         run: |
           cd target-repo
           sf project deploy start --target-org vishklearning@gmail.com --source-dir "force-app" --api-version ${{secrets.API_VERSION}} --wait 90 --json > deploy.json
           # sfdx force:source:deploy -p $delta -u vishklearning-kkyx@force.com --wait 10 --json
